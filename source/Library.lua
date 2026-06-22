@@ -4218,7 +4218,7 @@ local Library do
                 FontFace = Library.Font,
                 TextColor3 = FromRGB(180, 180, 180),
                 BorderColor3 = FromRGB(0, 0, 0),
-                Text = "infe" .. Library:ToRich("rnus", Library.Theme.Accent),
+                Text = Window.Name,
                 Name = "\0",
                 Size = UDim2New(1, 0, 1, -1),
                 BackgroundTransparency = 1,
