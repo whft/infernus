@@ -4255,7 +4255,7 @@ local Library do
                 Name = "\0",
                 Position = UDim2New(0, 13, 0, 77),
                 BorderColor3 = FromRGB(0, 0, 0),
-                Size = UDim2New(0.188, 0, 0, 25),
+                Size = UDim2New(0.188, 0, 1, -93),
                 BorderSizePixel = 2,
                 BackgroundColor3 = FromRGB(13, 13, 13)
             })  Items["SubTabs"]:AddToTheme({BackgroundColor3 = "Inline", BorderColor3 = "Outline"})
