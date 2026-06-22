@@ -4253,7 +4253,7 @@ local Library do
             Items["SubTabs"] = Instances:Create("Frame", {
                 Parent = Items["Inline"].Instance,
                 Name = "\0",
-                Position = UDim2New(0, 13, 0, 59),
+                Position = UDim2New(0, 13, 0, 77),
                 BorderColor3 = FromRGB(0, 0, 0),
                 Size = UDim2New(0.188, 0, 0, 17),
                 BorderSizePixel = 2,
@@ -4315,9 +4315,9 @@ local Library do
             Items["Content"] = Instances:Create("Frame", {
                 Parent = Items["Inline"].Instance,
                 Name = "\0",
-                Position = UDim2New(0, 13, 0, 77),
+                Position = UDim2New(0.188, 28, 0, 77),
                 BorderColor3 = FromRGB(0, 0, 0),
-                Size = UDim2New(1, -28, 1, -93),
+                Size = UDim2New(0.736, 0, 1, -93),
                 BorderSizePixel = 2,
                 BackgroundColor3 = FromRGB(12, 12, 12)
             })  Items["Content"]:AddToTheme({BackgroundColor3 = "Inline", BorderColor3 = "Outline"})
