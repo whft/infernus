@@ -222,6 +222,8 @@ local Library do
 
         ThemeColorpickers = { },
 
+        AccentTexts = { },
+
         SetFlags = { },
 
         CopiedColor = nil,
@@ -1055,6 +1057,15 @@ local Library do
             for Property, Value in Item.Properties do
                 if type(Value) == "string" and Value == Theme then
                     Item.Item[Property] = Color
+                end
+            end
+        end
+
+        if Theme == "Accent" then
+            local r, g, b = MathFloor(Color.R * 255), MathFloor(Color.G * 255), MathFloor(Color.B * 255)
+            for _, Label in self.AccentTexts do
+                if Label and Label.Parent then
+                    Label.Text = StringGSub(Label.Text, 'color="rgb%(%d+, %d+, %d+%)"', StringFormat('color="rgb(%d, %d, %d)"', r, g, b))
                 end
             end
         end
@@ -4248,6 +4259,10 @@ local Library do
                 end)
             else
                 Items["Text"]:AddToTheme({TextColor3 = "Text"})
+            end
+
+            if StringFind(Items["Text"].Instance.Text, "<font") then
+                TableInsert(Library.AccentTexts, Items["Text"].Instance)
             end
 
             Items["SubTabs"] = Instances:Create("Frame", {
