@@ -200,10 +200,10 @@ local Library do
         },
 
         Images = { -- you're welcome to reupload the images and replace it with your own links
-            ["Saturation"] = {"Saturation.png", "https://github.com/sametexe001/images/blob/main/saturation.png?raw=true" },
-            ["Value"] = { "Value.png", "https://github.com/sametexe001/images/blob/main/value.png?raw=true" },
-            ["Hue"] = { "Hue.png", "https://github.com/sametexe001/images/blob/main/horizontalhue.png?raw=true" },
-            ["Checkers"] = { "Checkers.png", "https://github.com/sametexe001/images/blob/main/checkers.png?raw=true" },
+            ["Saturation"] = {"Saturation.png", "https://raw.githubusercontent.com/whft/infernus/refs/heads/main/assets/images/saturation.png" },
+            ["Value"] = { "Value.png", "https://raw.githubusercontent.com/whft/infernus/refs/heads/main/assets/images/value.png" },
+            ["Hue"] = { "Hue.png", "https://raw.githubusercontent.com/whft/infernus/refs/heads/main/assets/images/horizontalhue.png" },
+            ["Checkers"] = { "Checkers.png", "https://raw.githubusercontent.com/whft/infernus/refs/heads/main/assets/images/checkers.png" },
         },
 
         -- Ignore below
@@ -723,7 +723,7 @@ local Library do
         end
 
         CustomFont:New("Windows-XP-Tahoma", 200, "Regular", {
-            Url = "https://github.com/sametexe001/luas/raw/refs/heads/main/fonts/windows-xp-tahoma.ttf"
+            Url = "https://raw.githubusercontent.com/whft/infernus/refs/heads/main/assets/fonts/windows-xp-tahoma.ttf"
         })
 
         Library.Font = CustomFont:Get("Windows-XP-Tahoma")
@@ -4284,10 +4284,17 @@ local Library do
 
             Instances:Create("UIListLayout", {
                 Parent = Items["SubTabs"].Instance,
-                FillDirection = Enum.FillDirection.Horizontal,
-                HorizontalFlex = Enum.UIFlexAlignment.Fill,
+                FillDirection = Enum.FillDirection.Vertical,
                 SortOrder = Enum.SortOrder.LayoutOrder,
-                Padding = UDimNew(0, 4)
+                Padding = UDimNew(0, 2)
+            })
+
+            Instances:Create("UIPadding", {
+                Parent = Items["SubTabs"].Instance,
+                PaddingTop = UDimNew(0, 4),
+                PaddingBottom = UDimNew(0, 4),
+                PaddingLeft = UDimNew(0, 4),
+                PaddingRight = UDimNew(0, 4)
             })
 
             Items["Pages"] = Instances:Create("Frame", {
