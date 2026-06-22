@@ -22,8 +22,16 @@ local VisualsTab = Window:Page({Name = "Visuals", Columns = 2  })
 local PlayersTab = Window:Page({Name = "Players", Columns = 1  })
 local SettingsTab = Window:Page({Name = "Settings", Columns = 2 })
 
-local AimbotSection = CombatTab:Section({Name = "Aimbot", Side = 1 })
-CombatTab:Section({Name = "Misc", Side = 2 })
+local AimbotSubTab = CombatTab:SubTab({ Name = "Aimbot", Columns = 2 })
+local RageSubTab = CombatTab:SubTab({ Name = "Rage", Columns = 2 })
+
+local AimbotSection = AimbotSubTab:Section({Name = "Aimbot", Side = 1 })
+AimbotSubTab:Section({Name = "Misc", Side = 2 })
+
+local RageSection = RageSubTab:Section({ Name = "Rage", Side = 1 })
+RageSection:Toggle({ Name = "Enabled", Default = false, Flag = "RageEnabled", Callback = function() end })
+RageSection:Slider({ Name = "Hit Chance", Flag = "RageHitChance", Min = 0, Max = 100, Default = 75, Suffix = "%", Decimals = 1, Callback = function() end })
+RageSection:Toggle({ Name = "Auto Fire", Default = false, Flag = "RageAutoFire", Callback = function() end })
 
 local PlayerList = PlayersTab:PlayerList({
     Name = "Playerlist",

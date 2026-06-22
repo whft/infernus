@@ -4435,6 +4435,167 @@ local Library do
         return setmetatable(Section, Library.Sections)
     end
 
+    Library.Pages.SubTab = function(self, Data)
+        Data = Data or { }
+
+        if not self._subtabInit then
+            self._subtabInit = true
+            self.SubTabs = { }
+
+            for _, Column in self.ColumnsData do
+                pcall(function() Column:Clean() end)
+            end
+            self.ColumnsData = { }
+
+            for _, Child in self.Items["Page"].Instance:GetChildren() do
+                if Child:IsA("UIListLayout") then
+                    Child:Destroy()
+                end
+            end
+
+            Library:Connect(self.Items["Page"].Instance:GetPropertyChangedSignal("Visible"), function()
+                local Active = self.Items["Page"].Instance.Visible
+
+                for _, Tab in self.SubTabs do
+                    Tab.Button.Instance.Visible = Active
+                end
+
+                if Active then
+                    local AnyVisible = false
+                    for _, Tab in self.SubTabs do
+                        if Tab.Content.Instance.Visible then AnyVisible = true end
+                    end
+                    if not AnyVisible and self.SubTabs[1] then
+                        for _, Tab in self.SubTabs do Tab:Turn(Tab == self.SubTabs[1]) end
+                    end
+                else
+                    for _, Tab in self.SubTabs do Tab.Content.Instance.Visible = false end
+                end
+            end)
+        end
+
+        local SubTab = {
+            Window = self.Window,
+            Page = self,
+
+            Name = Data.Name or Data.name or "SubTab",
+            Columns = Data.Columns or Data.columns or 2,
+
+            ColumnsData = { },
+            Items = { }
+        }
+
+        local Content = Instances:Create("Frame", {
+            Parent = self.Items["Page"].Instance,
+            BackgroundTransparency = 1,
+            Name = "\0",
+            BorderColor3 = FromRGB(0, 0, 0),
+            Size = UDim2New(1, 0, 1, 0),
+            Visible = false,
+            BorderSizePixel = 0,
+            BackgroundColor3 = FromRGB(255, 255, 255)
+        })
+
+        Instances:Create("UIListLayout", {
+            Parent = Content.Instance,
+            FillDirection = Enum.FillDirection.Horizontal,
+            HorizontalFlex = Enum.UIFlexAlignment.Fill,
+            Padding = UDimNew(0, 20),
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            VerticalFlex = Enum.UIFlexAlignment.Fill
+        })
+
+        for Index = 1, SubTab.Columns do
+            local NewColumn = Instances:Create("ScrollingFrame", {
+                Parent = Content.Instance,
+                ScrollBarImageColor3 = FromRGB(0, 0, 0),
+                Active = true,
+                AutomaticCanvasSize = Enum.AutomaticSize.Y,
+                ScrollBarThickness = 0,
+                Name = "\0",
+                MidImage = "rbxassetid://85239668542938",
+                TopImage = "rbxassetid://85239668542938",
+                BottomImage = "rbxassetid://85239668542938",
+                BackgroundTransparency = 1,
+                Size = UDim2New(0, 100, 0, 100),
+                BackgroundColor3 = FromRGB(255, 255, 255),
+                BorderColor3 = FromRGB(0, 0, 0),
+                BorderSizePixel = 0,
+                CanvasSize = UDim2New(0, 0, 0, 0)
+            })  NewColumn:AddToTheme({ScrollBarImageColor3 = "Accent"})
+
+            local Padding = Instances:Create("UIPadding", {
+                Parent = NewColumn.Instance,
+                PaddingTop = UDimNew(0, 18),
+                PaddingBottom = UDimNew(0, 15),
+                PaddingRight = UDimNew(0, 18),
+                PaddingLeft = UDimNew(0, 18)
+            })
+
+            if Index == 1 then
+                Padding.Instance.PaddingRight = UDimNew(0, 5)
+            elseif Index == 2 then
+                Padding.Instance.PaddingRight = UDimNew(0, 18)
+                Padding.Instance.PaddingLeft = UDimNew(0, 5)
+            end
+
+            Instances:Create("UIListLayout", {
+                Parent = NewColumn.Instance,
+                Padding = UDimNew(0, 17),
+                SortOrder = Enum.SortOrder.LayoutOrder
+            })
+
+            SubTab.ColumnsData[Index] = NewColumn
+        end
+
+        local Button = Instances:Create("TextButton", {
+            Parent = self.Window.Items["SubTabs"].Instance,
+            FontFace = Library.Font,
+            TextColor3 = FromRGB(180, 180, 180),
+            BorderColor3 = FromRGB(0, 0, 0),
+            Text = SubTab.Name,
+            AutoButtonColor = false,
+            BackgroundTransparency = 1,
+            Name = "\0",
+            Size = UDim2New(1, 0, 0, 16),
+            BorderSizePixel = 0,
+            TextSize = 12,
+            BackgroundColor3 = FromRGB(255, 255, 255)
+        })  Button:AddToTheme({TextColor3 = "Text"})
+
+        SubTab.Button = Button
+        SubTab.Content = Content
+
+        function SubTab:Turn(Bool)
+            SubTab.Content.Instance.Visible = Bool
+
+            if Bool then
+                SubTab.Button:ChangeItemTheme({TextColor3 = "Accent"})
+                SubTab.Button:Tween(nil, {TextColor3 = Library.Theme.Accent})
+            else
+                SubTab.Button:ChangeItemTheme({TextColor3 = "Text"})
+                SubTab.Button:Tween(nil, {TextColor3 = Library.Theme.Text})
+            end
+        end
+
+        Button:Connect("MouseButton1Down", function()
+            for _, Tab in self.SubTabs do
+                Tab:Turn(Tab == SubTab)
+            end
+        end)
+
+        local PageActive = self.Items["Page"].Instance.Visible
+        Button.Instance.Visible = PageActive
+
+        TableInsert(self.SubTabs, SubTab)
+
+        if #self.SubTabs == 1 then
+            SubTab:Turn(PageActive)
+        end
+
+        return setmetatable(SubTab, Library.Pages)
+    end
+
     Library.Pages.PlayerList = function(self, Data)
         local Playerlist = {
             Window = self.Window,
