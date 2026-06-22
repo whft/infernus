@@ -1,5 +1,5 @@
 --[[
-    Made by samet.exe
+    infernus
 
     Assign different flags to each element to prevent from configs overriding eachother
     Example script is at the bottom
@@ -4554,7 +4554,7 @@ local Library do
                 FontFace = Library.Font,
                 TextColor3 = FromRGB(180, 180, 180),
                 BorderColor3 = FromRGB(0, 0, 0),
-                Text = "Username: sametexe009",
+                Text = "None",
                 Name = "\0",
                 AnchorPoint = Vector2New(0, 1),
                 Size = UDim2New(0, 185, 0, 15),
